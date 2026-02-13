@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { PRELOADER_IMAGES } from "@/constants/images";
 import Image from "next/image";
@@ -8,9 +8,15 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const digit2Ref = useRef(null);
   const digit3Ref = useRef(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
+  const onCompleteStable = useCallback(onComplete, [onComplete]);
 
   useEffect(() => {
-    const digit3 = digit3Ref.current as HTMLElement | null;
+    const digit1El = digit1Ref.current;
+    const digit2El = digit2Ref.current;
+    const digit3El = digit3Ref.current;
+    const imagesEl = imagesRef.current;
+
+    const digit3 = digit3El as HTMLElement | null;
     if (digit3) {
       digit3.innerHTML = "";
       for (let i = 0; i < 2; i++) {
@@ -71,12 +77,12 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         );
       });
 
-      const d1 = animateDigit(
+      animateDigit(
         digit1Ref.current as unknown as HTMLElement,
         2,
         5
       );
-      const d2 = animateDigit(digit2Ref.current as unknown as HTMLElement, 6);
+      animateDigit(digit2Ref.current as unknown as HTMLElement, 6);
       animateDigit(digit3Ref.current as unknown as HTMLElement, 5);
 
       gsap.delayedCall(totalDuration + 0.5, () => {
@@ -101,7 +107,7 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             ease: "power2.inOut",
             onComplete: () => {
               setTimeout(() => {
-                onComplete();
+                onCompleteStable();
               }, 500);
             },
           },
@@ -139,13 +145,13 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
 
     return () => {
       gsap.killTweensOf([
-        digit1Ref.current,
-        digit2Ref.current,
-        digit3Ref.current,
-        imagesRef.current,
+        digit1El,
+        digit2El,
+        digit3El,
+        imagesEl,
       ]);
     };
-  }, []);
+  }, [onCompleteStable]);
 
   return (
     <div className="preloader-container flex items-center justify-center w-full h-screen bg-black text-white font-anton-sc uppercase fixed overflow-hidden z-[999999]">
