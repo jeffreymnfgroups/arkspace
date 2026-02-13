@@ -56,7 +56,7 @@ const Header = () => {
     { label: "Contact", href: "#" },
   ];
 
-  const handleNavClick = (href: string) => (e: React.MouseEvent) => {
+  const handleNavClick = (href: string) => (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setMobileOpen(false);
     router.push(href, { onTransitionReady: slideInOut });

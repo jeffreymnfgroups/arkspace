@@ -18,7 +18,7 @@ const Navigation = ({ isHomePage = false }) => {
     { label: "About", href: "/about" },
   ];
 
-  const handleNavClick = (href: string) => (e: React.MouseEvent) => {
+  const handleNavClick = (href: string) => (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setMobileOpen(false);
     router.push(href, { onTransitionReady: pageAnimation });
