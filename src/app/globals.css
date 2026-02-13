@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@layer theme, base, components, utilities;
+
+:root {
+  --background: #0e1011;
+  --background-inverse-1: #181a1b;
+  --background-inverse-2: #1f2122;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-inverse-1: var(--background-inverse-1);
+  --color-inverse-2: var(--background-inverse-2);
+  --color-footer-links: #0e101199;
+  /* --color-foreground: var(--foreground); */
+  --font-anton-sc: var(--font-anton-sc);
+  --font-gambetta: var(--font-gambetta);
+  --font-inter: var(--font-inter);
+  --text-inverse-muted: rgba(255, 255, 255, 0.6);
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  color: white;
+  overflow-x: hidden;
+  background: var(--background);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+span {
+  display: inline-block;
+}
+
+.perspective-container {
+  perspective: 1000px;
+  perspective-origin: center;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+.perspective-section {
+  perspective: 1000px;
+  perspective-origin: center;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+.transform-container {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.parallax-vertical {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroller-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scroller-vertical span {
+  padding: 0rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+::view-transition-group(root) {
+  z-index: auto !important;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  will-change: transform, opacity, scale;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: none !important;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none !important;
+}
